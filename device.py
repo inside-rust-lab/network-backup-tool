@@ -1,7 +1,21 @@
-class NetworkDevice
+class NetworkDevice:
+    def __init__(self, hostname, ip, vendor):
+        self.hostname = hostname
+        self.ip = ip
+        self.vendor = vendor
+
+    def connect():
+        # connect to the device
+    
+    def get_config():
+        # pull config from device
+
+    def disconnect():
+        # disconnect from the device
+        
 
 '''
-Attributes
+Attributes:
 hostname
 ip
 vendor
