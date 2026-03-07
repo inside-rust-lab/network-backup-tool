@@ -1,0 +1,47 @@
+Logging:
+
+Create logging in:
+
+logs/backup.log
+
+Use Python’s logging module.
+
+Log things like:
+
+INFO - connecting to core-sw1
+SUCCESS - backup complete
+ERROR - connection failed
+
+Concepts:
+
+standard library
+log levels
+formatting
+
+
+
+Error Handling:
+
+Add error cases:
+
+Simulate failures like:
+
+ConnectionError
+TimeoutError
+AuthenticationError
+
+Handle with:
+
+try
+except
+finally
+
+Example
+
+try:
+    device.connect()
+    config = device.get_config()
+except ConnectionError:
+    log failure
+
+This is critical for automation scripts in real environments.
