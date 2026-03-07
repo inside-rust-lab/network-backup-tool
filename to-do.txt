@@ -1,11 +1,23 @@
+Project: Network Device Backup & Inventory Tool
+
+Build a CLI tool that:
+
+Reads a list of network devices from a file
+Connects to them (simulated at first)
+"Retrieves" their configuration
+Saves backups
+Logs success/failure
+Handles connection errors
+Later you can swap the mock connection with Netmiko/NAPALM/Paramiko.
+
+Create a README.md
+
 Logging:
 
 Create logging in:
 
 logs/backup.log
-
 Use Python’s logging module.
-
 Log things like:
 
 INFO - connecting to core-sw1
@@ -17,7 +29,6 @@ Concepts:
 standard library
 log levels
 formatting
-
 
 
 Error Handling:
