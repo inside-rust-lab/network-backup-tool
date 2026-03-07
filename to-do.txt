@@ -45,3 +45,55 @@ except ConnectionError:
     log failure
 
 This is critical for automation scripts in real environments.
+
+
+
+Add Useful Python Features:
+
+Add these intentionally:
+
+Sets
+
+Track unique vendors:
+
+vendors = set()
+Tuples
+
+Return structured results:
+
+return (hostname, status)
+List comprehensions
+
+Example:
+
+cisco_devices = [d for d in devices if d.vendor == "cisco"]
+Stretch Goals (Highly Relevant for DevOps)
+
+Once the base project works, extend it.
+
+1. Replace fake connections with Netmiko
+
+Use:
+
+pip install netmiko
+2. Parallel backups
+
+Use:
+
+concurrent.futures
+
+Huge real-world automation skill.
+
+3. YAML support
+
+Read inventory from YAML.
+
+PyYAML
+
+Common in Ansible-style automation.
+
+4. Add device filtering
+
+Example:
+
+python main.py backup --vendor cisco
