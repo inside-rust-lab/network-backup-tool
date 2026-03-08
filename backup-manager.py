@@ -1,28 +1,38 @@
+import json
+from device import NetworkDevice
+
 class BackupManager:
-
-def load_devices():
-    '''
-    create a list of 'device' objects
-    will have to get info from the devices.json file
-    loop which parses the dictionaries in the list of devices in devices.json
-    ''' 
-
-def save_config():
-    '''
-    exports backups to backups/[hostname].cfg
-    '''
-
-def backup_device():
-    '''
-    argument takes a device name
     
-    searches the list of devices objects, gets the config and calls the save_config() method
-    '''
+    def load_devices(self):
 
-def backup_all():
-    '''
-    loops throuh the list of device objects and calls the backup_device() method
-    '''
+      network_devices = [] # list of NetworkDevice objects
+      
+      with open("devices.json") as f:
+          devices_data = json.load(f)
+      
+      for device_info in devices_data:
+          device = NetworkDevice(device_info["hostname"], 
+                                 device_info["ip"], 
+                                 device_info["vendor"])
+          network_devices.append(device)
+
+      return network_devices
+    
+    def save_config(self):
+      '''
+      exports backups to backups/[hostname].cfg
+      '''
+
+    def backup_device(self):
+        network_devices = self.load_devices()
+
+    def backup_all():
+        network_devices = self.load_devices()
+        '''
+        loops throuh the list of device objects and calls the backup_device() method
+        '''
+
+
 '''
 questions:
 
@@ -65,4 +75,6 @@ concepts:
 file I/O
 loops
 calling class methods
+
+
 '''
