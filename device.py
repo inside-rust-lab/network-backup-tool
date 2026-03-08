@@ -5,14 +5,16 @@ class NetworkDevice:
         self.vendor = vendor
 
     def connect():
-        # connect to the device
-    
+        '''
+        connect the device and have a percentage of failure
+        maybe have a file with "configs" 
+        '''
+
     def get_config():
         # pull config from device
 
     def disconnect():
         # disconnect from the device
-        
 
 '''
 Attributes:
