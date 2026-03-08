@@ -11,47 +11,35 @@ class BackupManager:
           devices_data = json.load(f)
       
       for device_info in devices_data:
-          device = NetworkDevice(device_info["hostname"], 
+          device_object = NetworkDevice(device_info["hostname"], 
                                  device_info["ip"], 
                                  device_info["vendor"])
-          network_devices.append(device)
+          network_devices.append(device_object)
 
       return network_devices
     
     def save_config(self, device):
-      '''
-      exports backups to backups/[hostname].cfg
-      '''
+      device.connect() # need to add a "try" feature
+      config = device.get_config()
+      # write config to backups/[hostname][date/time].conf
 
     def backup_device(self, hostname):
         
       network_devices = self.load_devices()
-      hostname_not_found = True
-      
+
       for device in network_devices:
          if device.hostname == hostname:
             self.save_config(device)
-            hostname_not_found = False
+            return
       
-      if hostname_not_found:
-         print("Hostname was not found")
+      print("Hostname was not found")
       
-
-         
-        
-
-
-
     def backup_all(self):
         
       network_devices = self.load_devices()
         
       for device in network_devices:
           self.save_config(device)
-      '''
-      loops throuh the list of device objects and calls the backup_device() method
-      '''
-
 
 '''
 questions:
