@@ -18,19 +18,39 @@ class BackupManager:
 
       return network_devices
     
-    def save_config(self):
+    def save_config(self, device):
       '''
       exports backups to backups/[hostname].cfg
       '''
 
-    def backup_device(self):
-        network_devices = self.load_devices()
+    def backup_device(self, hostname):
+        
+      network_devices = self.load_devices()
+      hostname_not_found = True
+      
+      for device in network_devices:
+         if device.hostname == hostname:
+            self.save_config(device)
+            hostname_not_found = False
+      
+      if hostname_not_found:
+         print("Hostname was not found")
+      
 
-    def backup_all():
-        network_devices = self.load_devices()
-        '''
-        loops throuh the list of device objects and calls the backup_device() method
-        '''
+         
+        
+
+
+
+    def backup_all(self):
+        
+      network_devices = self.load_devices()
+        
+      for device in network_devices:
+          self.save_config(device)
+      '''
+      loops throuh the list of device objects and calls the backup_device() method
+      '''
 
 
 '''
