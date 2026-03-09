@@ -7,13 +7,15 @@ class NetworkDevice:
         self.ip = ip
         self.vendor = vendor
 
-    def connect():
+    def connect(self):
+        # needs to accept hostname argument
+        # needs failure handling if file does not exist
         print("Connecting...")
         time.sleep(1)
         connection_established = False
 
-        while(connection_established != True):
-            random_failure = random.number(1, 3)
+        while not connection_established:
+            random_failure = random(1, 3)
             if random_failure == 1:
                 print("Connection failed" + "\n" + 
                       "Re-attempting connection")
@@ -21,21 +23,14 @@ class NetworkDevice:
                 print("Connection established")
                 connection_established = True
                 time.sleep(1)
-        return
-        
-        '''
-        connecting
-        sleep
-        try/except
-        connection success or failure
-        connect the device and have a percentage of failure
-        create a directory called configs/ which houses all the fake devices
-        '''
+                return connection_established
 
-    def get_config():
-        # open the configs/[hostname].conf
+    def get_config(self):
+        with open("configs/" + self.hostname + ".conf", "r") as file:
+            config = file.read()
+        print(config)
 
-    def disconnect():
+    def disconnect(self):
         print("Disconnecting...")
         time.sleep(2)
         print("Disconnect successful")

@@ -1,12 +1,12 @@
 [
   {
-    "hostname": "core-sw1",
+    "hostname": "R1",
     "ip": "10.0.0.1",
     "vendor": "cisco"
   },
   {
-    "hostname": "dist-sw1",
+    "hostname": "R2",
     "ip": "10.0.0.2",
-    "vendor": "arista"
+    "vendor": "juniper"
   }
 ]
