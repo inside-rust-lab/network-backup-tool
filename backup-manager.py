@@ -23,8 +23,8 @@ class BackupManager:
       device.connect() # need to add a "try" feature
       config = device.get_config()
 
-      current_time = datetime.datetime.now()
-      file_name = f"backups/{device.hostname}" + str(current_time) + ".conf"
+      current_time = str(datetime.datetime.now())
+      file_name = f"backups/{device.hostname}" + current_time + ".conf"
       # write config to backups/[hostname][date/time].conf
       with open(file_name, "w") as file:
          file.write(config)
@@ -50,7 +50,3 @@ class BackupManager:
         
       for device in network_devices:
           self.save_config(device)
-
-manager = BackupManager()
-manager.load_devices()
-manager.backup_all()
