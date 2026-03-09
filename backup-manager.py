@@ -1,4 +1,5 @@
 import json
+import datetime
 from device import NetworkDevice
 
 class BackupManager:
@@ -21,7 +22,16 @@ class BackupManager:
     def save_config(self, device):
       device.connect() # need to add a "try" feature
       config = device.get_config()
+
+      current_time = datetime.datetime.now()
+      file_name = f"backups/{device.hostname}" + str(current_time) + ".conf"
       # write config to backups/[hostname][date/time].conf
+      with open(file_name, "w") as file:
+         file.write(config)
+      print(config)
+      device.disconnect()
+      return
+
 
     def backup_device(self, hostname):
         
@@ -41,48 +51,6 @@ class BackupManager:
       for device in network_devices:
           self.save_config(device)
 
-'''
-questions:
-
-does the backup_device() method connect to the device or the save_config()?
-probably the backup_device() method?
-
-
-devices.json:
-
-[
-  {
-    "hostname": "core-sw1",
-    "ip": "10.0.0.1",
-    "vendor": "cisco"
-  },
-  {
-    "hostname": "dist-sw1",
-    "ip": "10.0.0.2",
-    "vendor": "arista"
-  }
-]
-
-responsibilities:
-
-load_devices()
-backup_device()
-save_config()
-backup_all()
-
-workflow:
-
-1 read devices.json
-2 create NetworkDevice objects
-3 connect to device
-4 get config
-5 save to backups/<hostname>.cfg
-
-concepts:
-
-file I/O
-loops
-calling class methods
-
-
-'''
+manager = BackupManager()
+manager.load_devices()
+manager.backup_all()
