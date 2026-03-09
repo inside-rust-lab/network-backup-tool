@@ -1,3 +1,6 @@
+import time
+import random
+
 class NetworkDevice:
     def __init__(self, hostname, ip, vendor):
         self.hostname = hostname
@@ -5,16 +8,38 @@ class NetworkDevice:
         self.vendor = vendor
 
     def connect():
+        print("Connecting...")
+        time.sleep(1)
+        connection_established = False
+
+        while(connection_established != True):
+            random_failure = random.number(1, 3)
+            if random_failure == 1:
+                print("Connection failed" + "\n" + 
+                      "Re-attempting connection")
+            else:
+                print("Connection established")
+                connection_established = True
+                time.sleep(1)
+        return
+        
         '''
+        connecting
+        sleep
+        try/except
+        connection success or failure
         connect the device and have a percentage of failure
-        maybe have a file with "configs" 
+        create a directory called configs/ which houses all the fake devices
         '''
 
     def get_config():
-        # pull config from device
+        # open the configs/[hostname].conf
 
     def disconnect():
-        # disconnect from the device
+        print("Disconnecting...")
+        time.sleep(2)
+        print("Disconnect successful")
+        return
 
 '''
 Attributes:
