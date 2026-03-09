@@ -1,3 +1,56 @@
+Error Handling:
+
+Where do I need failure handling?
+
+BackupManager:
+
+load_devices():
+
+Is the json file found?
+Is json in a valid format?
+
+save_config():
+
+Was the connection attempt successful?
+Does the backups/ directory exist?
+
+
+
+NetworkDevice:
+
+connect():
+
+Is the connection successful?
+
+get_config():
+
+Does the config directory exist?
+Does the config file exist?
+
+Add error cases:
+
+Simulate failures like:
+
+ConnectionError
+TimeoutError
+AuthenticationError
+
+Handle with:
+
+try
+except
+finally
+
+Example
+
+try:
+    device.connect()
+    config = device.get_config()
+except ConnectionError:
+    log failure
+
+This is critical for automation scripts in real environments.
+
 Project: Network Device Backup & Inventory Tool
 
 Build a CLI tool that:
@@ -29,33 +82,6 @@ Concepts:
 standard library
 log levels
 formatting
-
-
-Error Handling:
-
-Add error cases:
-
-Simulate failures like:
-
-ConnectionError
-TimeoutError
-AuthenticationError
-
-Handle with:
-
-try
-except
-finally
-
-Example
-
-try:
-    device.connect()
-    config = device.get_config()
-except ConnectionError:
-    log failure
-
-This is critical for automation scripts in real environments.
 
 
 

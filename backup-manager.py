@@ -9,12 +9,12 @@ class BackupManager:
       network_devices = [] # list of NetworkDevice objects
       
       with open("devices.json") as f:
-          devices_data = json.load(f)
+          devices = json.load(f)
       
-      for device_info in devices_data:
-          device_object = NetworkDevice(device_info["hostname"], 
-                                 device_info["ip"], 
-                                 device_info["vendor"])
+      for device in devices:
+          device_object = NetworkDevice(device["hostname"], 
+                                 device["ip"], 
+                                 device["vendor"])
           network_devices.append(device_object)
 
       return network_devices
@@ -28,7 +28,7 @@ class BackupManager:
       # write config to backups/[hostname][date/time].conf
       with open(file_name, "w") as file:
          file.write(config)
-      print(config)
+         print("Config was saved as backups/" + file_name)
       device.disconnect()
       return
 
@@ -41,8 +41,8 @@ class BackupManager:
          if device.hostname == hostname:
             self.save_config(device)
             return
-      
-      print("Hostname was not found")
+      error_message = f"No device with hostname '{hostname}' was found"
+      return error_message
       
     def backup_all(self):
         
