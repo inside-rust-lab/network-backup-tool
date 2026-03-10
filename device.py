@@ -8,7 +8,6 @@ class NetworkDevice:
         self.vendor = vendor
 
     def connect(self):
-        # needs to accept hostname argument
         # needs failure handling if file does not exist
         print("Connecting...")
         time.sleep(1)
@@ -27,9 +26,12 @@ class NetworkDevice:
         return connection_established
 
     def get_config(self):
-        with open("configs/" + self.hostname + ".conf", "r") as file:
-            config = file.read()
-        return config
+        try:
+            with open("configs/" + self.hostname + ".conf", "r") as file:
+                config = file.read()
+                return config
+        except FileNotFoundError:
+            print(f"Unable to connect to {self.hostname}")
 
     def disconnect(self):
         print("Disconnecting...")
