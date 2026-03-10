@@ -14,7 +14,7 @@ class NetworkDevice:
         connection_established = False
 
         while not connection_established:
-            random_failure = random.randint(1, 3)
+            random_failure = random.randint(1, 10)
             if random_failure == 1:
                 print("Connection failed" + "\n" + 
                       "Re-attempting connection...")
