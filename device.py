@@ -8,8 +8,7 @@ class NetworkDevice:
         self.vendor = vendor
 
     def connect(self):
-        # needs failure handling if file does not exist
-        print("Connecting...")
+        print(f"Connecting to {self.hostname}...")
         time.sleep(1)
         connection_established = False
 

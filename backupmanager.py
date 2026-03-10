@@ -32,15 +32,15 @@ class BackupManager:
         
         device.connect()
 
-        directory = "backup"
+        directory = "backups"
         if not os.path.isdir(directory):
             os.makedirs(directory)
 
         current_time = str(datetime.datetime.now())
-        file_name = f"backups/{device.hostname}" + current_time + ".conf"
+        file_name = f"{directory}/{device.hostname}{current_time}.conf"
         with open(file_name, "w") as file:
             file.write(config)
-            print("Config was saved as backups/" + file_name)
+            print(f"Config was saved as {directory}/{file_name}")
             
         device.disconnect()
         return
