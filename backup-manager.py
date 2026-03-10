@@ -25,9 +25,10 @@ class BackupManager:
       return network_devices
     
     def save_config(self, device):
-      device.connect() # need to add a "try" feature
       config = device.get_config()
-
+      if config is None:
+         return
+      device.connect()
       current_time = str(datetime.datetime.now())
       file_name = f"backups/{device.hostname}" + current_time + ".conf"
       # write config to backups/[hostname][date/time].conf
@@ -62,6 +63,3 @@ class BackupManager:
               self.save_config(device)
           return
       print("Unable to backup devices")
-
-backup = BackupManager()
-backup.backup_device("R1")

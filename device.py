@@ -32,6 +32,7 @@ class NetworkDevice:
                 return config
         except FileNotFoundError:
             print(f"Unable to connect to {self.hostname}")
+            return None
 
     def disconnect(self):
         print("Disconnecting...")
