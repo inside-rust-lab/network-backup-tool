@@ -12,6 +12,7 @@ use argparse
 '''
 from backupmanager import BackupManager
 import argparse
+import json
 
 def get_login_credentials():
     username = input("Username: ")
@@ -48,7 +49,16 @@ if args.backup_all:
     backup_manager.backup_all()
 
 if args.list_devices:
-    print("Listing all devices")
+    print("Listing all devices:")
+    for device in backup_manager.devices:
+        print(f"Hostname: {device.hostname}")
+        print(f"IP: {device.ip}")
+        print(f"Vendor: {device.vendor}\n")
 
 if args.list_vendors:
-    print("Listing all vendors")
+    print("Listing all vendors:")
+    vendors = []
+    for device in backup_manager.devices:
+        vendors.append(device.vendor)
+    unique_list = list(set(vendors))
+    print(unique_list)

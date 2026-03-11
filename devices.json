@@ -8,5 +8,10 @@
     "hostname": "R2",
     "ip": "10.0.0.2",
     "vendor": "juniper"
+  },
+  {
+    "hostname": "R3",
+    "ip": "10.0.0.3",
+    "vendor": "juniper"
   }
 ]
