@@ -13,10 +13,11 @@ use argparse
 from backupmanager import BackupManager
 import argparse
 import json
+import getpass
 
 def get_login_credentials():
     username = input("Username: ")
-    password = input("Password: ")
+    password = getpass.getpass("Password: ")
     return (username, password)
 
 parser = argparse.ArgumentParser("nbtool", "Backup network device(s)")
@@ -38,7 +39,7 @@ args = parser.parse_args()
 backup_manager = BackupManager()
 
 if args.backup:
-    hostname = args.backup
+    hostname = args.backup.upper()
     get_login_credentials()
     print(f"Backing up: {hostname}")
     backup_manager.backup_device(hostname)
@@ -57,8 +58,7 @@ if args.list_devices:
 
 if args.list_vendors:
     print("Listing all vendors:")
-    vendors = []
+    vendors = set()
     for device in backup_manager.devices:
-        vendors.append(device.vendor)
-    unique_list = list(set(vendors))
-    print(unique_list)
+        vendors.add(device.vendor)
+    print(vendors)

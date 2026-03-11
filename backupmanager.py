@@ -34,11 +34,14 @@ class BackupManager:
         return network_devices
     
     def save_config(self, device):
+        successful_connection = device.connect()
+        if not successful_connection:
+            return
+
         config = device.get_config()
         if config is None:
+            device.disconnect()
             return
-        
-        device.connect()
 
         directory = "backups"
         if not os.path.isdir(directory):
@@ -46,10 +49,10 @@ class BackupManager:
 
         current_time = datetime.datetime.now()
         current_time_formatted = current_time.strftime("%m-%d-%y_%H:%M:%S")
-        file_name = f"{directory}/{device.hostname}-{current_time_formatted}.conf"
+        file_name = f"{directory}/{device.hostname}_{current_time_formatted}.conf"
         with open(file_name, "w") as file:
             file.write(config)
-            print(f"Config was saved as {directory}/{file_name}")
+            print(f"Config was saved as ./{file_name}")
             
         device.disconnect()
         return

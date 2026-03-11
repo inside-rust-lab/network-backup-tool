@@ -1,5 +1,2 @@
-Look into backups/ error
-Use getpass
-Fix vendors output
+
 Add logging
-Add retries limit to connect()
