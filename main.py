@@ -34,14 +34,18 @@ parser.add_argument("-v", "--list-vendors",
                     help="List the unique vendors for all devices configured in devices.json")
 
 args = parser.parse_args()
+backup_manager = BackupManager()
 
 if args.backup:
+    hostname = args.backup
     get_login_credentials()
-    print(f"Backing up: {args.backup}")
+    print(f"Backing up: {hostname}")
+    backup_manager.backup_device(hostname)
 
 if args.backup_all:
     get_login_credentials()
     print("Backing up all devices")
+    backup_manager.backup_all()
 
 if args.list_devices:
     print("Listing all devices")
