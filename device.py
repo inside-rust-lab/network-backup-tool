@@ -29,6 +29,7 @@ class NetworkDevice:
                     secret=self.secret
                 )
                 print(f"Successfully connected to {self.hostname}")
+                connection_established = True
                 return connection_established
             except NetmikoAuthenticationException:
                 print("Invalid credentials")
@@ -43,8 +44,8 @@ class NetworkDevice:
     def get_config(self):
         if self.net_connect is not None:
             try:
-                output = self.net_connect.find_prompt()
-                print(output)
+                self.net_connect.enable()
+                output = self.net_connect.send_command("show version")
                 return output
             except:
                 print(f"Unable to retrieve config file from {self.hostname}")
