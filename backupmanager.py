@@ -2,10 +2,23 @@ import json
 import datetime
 import os
 from device import NetworkDevice
+import getpass
 
 class BackupManager:
     def __init__(self):
         self.devices = self.load_devices()
+    
+    def get_login_credentials(self):
+        username = input("Username: ")
+        password = getpass.getpass("Password: ")
+        secret = getpass.getpass("Enable password: ")
+        credentials = {
+            "username": username,
+            "password": password,
+            "secret": secret
+        }
+        return credentials
+
     
     def load_devices(self):
 
@@ -24,11 +37,16 @@ class BackupManager:
         except PermissionError:
             print(f"You do not have permissions to open {json_file_name}")
             return
+
+        credentials = self.get_login_credentials()   
         
         for device in devices_json_data:
             device_object = NetworkDevice(device["hostname"], 
-                                          device["ip"], 
-                                          device["vendor"])
+                                          device["host"], 
+                                          device["device_type"],
+                                          credentials["username"],
+                                          credentials["password"],
+                                          credentials["secret"])
             network_devices.append(device_object)
 
         return network_devices

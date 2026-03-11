@@ -1,17 +1,17 @@
 [
   {
-    "hostname": "R1",
-    "ip": "10.0.0.1",
-    "vendor": "cisco"
+    "hostname": "FW-LAB-01",
+    "host": "10.0.0.1",
+    "device_type": "juniper_junos"
   },
   {
-    "hostname": "R2",
-    "ip": "10.0.0.2",
-    "vendor": "juniper"
+    "hostname": "AD-LAB-01",
+    "host": "10.0.0.2",
+    "device_type": "adtran_os"
   },
   {
-    "hostname": "R3",
-    "ip": "10.0.0.3",
-    "vendor": "juniper"
+    "hostname": "SW-LAB-01",
+    "host": "192.168.20.1",
+    "device_type": "cisco_ios"
   }
 ]

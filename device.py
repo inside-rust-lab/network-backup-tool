@@ -1,15 +1,18 @@
 import time
 import random
+from netmiko import ConnectHandler
 
 class NetworkDevice:
-    def __init__(self, hostname, ip, vendor):
+    def __init__(self, hostname, host, device_type, username, password, secret):
         self.hostname = hostname
-        self.ip = ip
-        self.vendor = vendor
+        self.host = host
+        self.device_type = device_type
+        self.username = username
+        self.password = password
+        self.secret = secret
 
     def connect(self):
         print(f"Attempting to connect to {self.hostname}...")
-        time.sleep(1)
         connection_established = False
         connection_attempts = 3
 
