@@ -1,6 +1,5 @@
 from backupmanager import BackupManager
 import argparse
-import getpass
 
 parser = argparse.ArgumentParser("nbtool", "Backup network device(s)")
 parser.add_argument("-b", "--backup", 

@@ -55,9 +55,11 @@ class NetworkDevice:
         }
         if self.net_connect is not None:
             try:
-                self.net_connect.enable()
-                output = self.net_connect.send_command(device_commands[self.device_type]["get_config"])
-                return output                    
+                if self.device_type == "adtran_os" or self.device_type == "cisco_ios":
+                    self.net_connect.enable()
+                get_config_cmd = device_commands[self.device_type]["get_config"]
+                output = self.net_connect.send_command(get_config_cmd)
+                return output              
             except:
                 print(f"Unable to retrieve config file from {self.hostname}")
                 return None
