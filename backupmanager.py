@@ -7,6 +7,7 @@ import getpass
 class BackupManager:
     def __init__(self):
         self.devices = self.load_devices()
+        self.json_file_error = None
     
     def get_login_credentials(self):
         username = input("Username: ")
@@ -17,17 +18,20 @@ class BackupManager:
             "password": password,
             "secret": secret
         }
-        return credentials
-
+        for device in self.devices:
+            device.username = credentials["username"]
+            device.password = credentials["password"]
+            device.secret = credentials["secret"]
     
     def load_devices(self):
 
-        network_devices = []
+        network_devices = [] # list of NetworkDevice objects
         json_file_name = "devices.json"
         
         try:
             with open(json_file_name) as file:
                 devices_json_data = json.load(file)
+                self.json_file_error = False
         except FileNotFoundError:
             print(f"File name {json_file_name} was not found")
             return
@@ -37,16 +41,11 @@ class BackupManager:
         except PermissionError:
             print(f"You do not have permissions to open {json_file_name}")
             return
-
-        credentials = self.get_login_credentials()   
         
         for device in devices_json_data:
             device_object = NetworkDevice(device["hostname"], 
                                           device["host"], 
-                                          device["device_type"],
-                                          credentials["username"],
-                                          credentials["password"],
-                                          credentials["secret"])
+                                          device["device_type"])
             network_devices.append(device_object)
 
         return network_devices
@@ -76,12 +75,8 @@ class BackupManager:
         return
 
     def backup_device(self, hostname):
-        
+        self.get_login_credentials()
         network_devices = self.devices
-
-        if network_devices is None:
-            print(f"Unable to backup device")
-            return
 
         for device in network_devices:
             if device.hostname == hostname:
@@ -91,12 +86,8 @@ class BackupManager:
         print(f"No device with hostname '{hostname}' was found")
       
     def backup_all(self):
-        
+        self.get_login_credentials()
         network_devices = self.devices
         
-        if network_devices is not None:
-            for device in network_devices:
-                self.save_config(device)
-            return
-        
-        print("Unable to backup devices")
+        for device in network_devices:
+            self.save_config(device)

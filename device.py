@@ -4,13 +4,13 @@ from netmiko import ConnectHandler
 from netmiko import NetmikoTimeoutException, NetmikoAuthenticationException
 
 class NetworkDevice:
-    def __init__(self, hostname, host, device_type, username, password, secret):
+    def __init__(self, hostname, host, device_type):
         self.hostname = hostname
         self.host = host
         self.device_type = device_type
-        self.username = username
-        self.password = password
-        self.secret = secret
+        self.username = None
+        self.password = None
+        self.secret = None
         self.netconnect = None
 
     def connect(self):
@@ -54,5 +54,4 @@ class NetworkDevice:
     def disconnect(self):
         print(f"Disconnecting from {self.hostname}...")
         self.net_connect.disconnect()
-        print("Disconnect successful")
         return
