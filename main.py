@@ -20,25 +20,24 @@ parser.add_argument("-v", "--list-vendors",
 args = parser.parse_args()
 backup_manager = BackupManager()
 
-if args.backup:
-    hostname = args.backup.upper()
-    if not backup_manager.json_file_error:
+if not backup_manager.json_file_error:
+    if args.backup:
+        hostname = args.backup.upper()
         backup_manager.backup_device(hostname)
 
-if args.backup_all:
-    if not backup_manager.json_file_error:
+    if args.backup_all:
         backup_manager.backup_all()
 
-if args.list_devices:
-    print("Listing all devices:\n")
-    for device in backup_manager.devices:
-        print(f"Hostname: {device.hostname}")
-        print(f"Host: {device.host}")
-        print(f"Vendor: {device.device_type}\n")
+    if args.list_devices:
+        print("Listing all devices:\n")
+        for device in backup_manager.devices:
+            print(f"Hostname: {device.hostname}")
+            print(f"Host: {device.host}")
+            print(f"Vendor: {device.device_type}\n")
 
-if args.list_vendors:
-    print("Listing all vendors:\n")
-    vendors = set()
-    for device in backup_manager.devices:
-        vendors.add(device.device_type)
-    print(vendors)
+    if args.list_vendors:
+        print("Listing all vendors:\n")
+        vendors = set()
+        for device in backup_manager.devices:
+            vendors.add(device.device_type)
+        print(vendors)

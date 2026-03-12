@@ -6,8 +6,8 @@ import getpass
 
 class BackupManager:
     def __init__(self):
-        self.devices = self.load_devices()
         self.json_file_error = None
+        self.devices = self.load_devices()
     
     def get_login_credentials(self):
         username = input("Username: ")
@@ -31,15 +31,19 @@ class BackupManager:
         try:
             with open(json_file_name) as file:
                 devices_json_data = json.load(file)
+                print("false")
                 self.json_file_error = False
         except FileNotFoundError:
             print(f"File name {json_file_name} was not found")
+            self.json_file_error = True
             return
         except json.JSONDecodeError:
             print(f"JSON data in {json_file_name} is not formatted properly")
+            self.json_file_error = True
             return
         except PermissionError:
             print(f"You do not have permissions to open {json_file_name}")
+            self.json_file_error = True
             return
         
         for device in devices_json_data:
