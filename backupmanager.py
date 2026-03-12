@@ -59,9 +59,6 @@ class BackupManager:
             return
 
         config = device.get_config()
-        if config is None:
-            device.disconnect()
-            return
 
         directory = "backups"
         if not os.path.isdir(directory):

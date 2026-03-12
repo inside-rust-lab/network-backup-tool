@@ -42,11 +42,22 @@ class NetworkDevice:
 
 
     def get_config(self):
+        device_commands = {
+            "cisco_ios": {
+                "get_config": "show running-config",
+            },
+            "adtran_os": {
+                "get_config": "show running-config",
+            },
+            "juniper_junos": {
+                "get_config": "show configuration",
+            }
+        }
         if self.net_connect is not None:
             try:
                 self.net_connect.enable()
-                output = self.net_connect.send_command("show version")
-                return output
+                output = self.net_connect.send_command(device_commands[self.device_type]["get_config"])
+                return output                    
             except:
                 print(f"Unable to retrieve config file from {self.hostname}")
                 return None
