@@ -31,7 +31,6 @@ class BackupManager:
         try:
             with open(json_file_name) as file:
                 devices_json_data = json.load(file)
-                print("false")
                 self.json_file_error = False
         except FileNotFoundError:
             print(f"File name {json_file_name} was not found")
@@ -79,15 +78,18 @@ class BackupManager:
         return
 
     def backup_device(self, hostname):
-        self.get_login_credentials()
-        network_devices = self.devices
-
-        for device in network_devices:
+        hostname_found = False
+        for device in self.devices:
             if device.hostname == hostname:
-                self.save_config(device)
-                return
-
-        print(f"No device with hostname '{hostname}' was found")
+                self.get_login_credentials()
+                hostname_found = True
+        
+        if hostname_found:
+            for device in self.devices:
+                if device.hostname == hostname:
+                    self.save_config(device)
+                    return
+        print(f"Hostname {hostname} not found")
       
     def backup_all(self):
         self.get_login_credentials()

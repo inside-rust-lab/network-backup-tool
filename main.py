@@ -22,7 +22,7 @@ backup_manager = BackupManager()
 
 if not backup_manager.json_file_error:
     if args.backup:
-        hostname = args.backup.upper()
+        hostname = args.backup
         backup_manager.backup_device(hostname)
 
     if args.backup_all:
