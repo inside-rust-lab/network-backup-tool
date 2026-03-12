@@ -1,6 +1,6 @@
 # Network Backup Tool (nbtool)
 
-A simple Python CLI tool that simulates backing up configuration files from network devices.
+A simple Python CLI tool that backs up configuration files from network devices.
 This project was built to practice core Python concepts while modeling a realistic network automation workflow.
 
 The tool reads a device inventory, connects to devices, retrieves configuration data, and saves timestamped backups locally.
@@ -13,7 +13,6 @@ The tool reads a device inventory, connects to devices, retrieves configuration 
 * Backup all devices in the inventory
 * List devices in the inventory
 * List unique vendors
-* Simulated device connection failures
 * Retry logic for connection attempts
 * Timestamped configuration backups
 * CLI interface using `argparse`
@@ -26,12 +25,13 @@ The tool reads a device inventory, connects to devices, retrieves configuration 
 ```
 network-backup-tool/
 │
-├── main.py               # CLI entrypoint
+├── main.py               # Handles CLI args
+├── nbtool                # CLI entrypoint
+├── requirements.txt      # Dependencies
 ├── device.py             # NetworkDevice class
 ├── backup_manager.py     # Backup logic and inventory loading
 ├── devices.json          # Device inventory
 ├── backups/              # Saved configuration backups
-├── configs/              # Mock configuration files 
 └── README.md
 ```
 
@@ -44,77 +44,55 @@ network-backup-tool/
 ```
 [
   {
-    "hostname": "R1",
-    "ip": "10.0.0.1",
-    "vendor": "cisco"
+    "hostname": "FW-LAB-01",
+    "host": "10.0.0.1",
+    "device_type": "juniper_junos"
   },
   {
-    "hostname": "R2",
-    "ip": "10.0.0.2",
-    "vendor": "juniper"
+    "hostname": "AD-LAB-01",
+    "host": "10.0.0.2",
+    "device_type": "adtran_os"
   },
   {
-    "hostname": "R3",
-    "ip": "10.0.0.3",
-    "vendor": "juniper"
+    "hostname": "SW-LAB-01",
+    "host": "192.168.20.1",
+    "device_type": "cisco_ios"
   }
 ]
 ```
 
 ---
 
-# Example Conf file
-
-`configs/R1.conf`
+# Quick Start
 
 ```
-hostname R1
-!
-interface GigabitEthernet0/0
- description Link to Juniper Router
- ip address 10.0.0.1 255.255.255.252
- no shutdown
-!
-ip route 0.0.0.0 0.0.0.0 10.0.0.2
-```
-
----
-
-# Installation
-
-Clone the repository:
-
-```
-git clone <repo-url>
+git clone https://github.com/inside-rust-lab/network-backup-tool.git
 cd network-backup-tool
-```
-
-Create and activate a virtual environment:
-
-```
 python3 -m venv venv
 source venv/bin/activate
+pip install -r requirements.txt
+./nbtool -l
 ```
-
----
 
 # Usage
 
 ## Backup All Devices
 
 ```
-python3 main.py -a
+nbtool -a
 ```
 
 Example output:
 
 ```
-Backing up all devices
-Attempting to connect to R1...
-Connection established
-Config was saved as ./backups/R1_03-10-26_23:36:29.conf
-Disconnecting...
-Disconnect successful
+Attempting to connect to SW-LAB-01...
+Successfully connected to SW-LAB-01
+Config was saved as ./backups/SW-LAB-01_03-12-26_08:09:23.conf
+Disconnecting from SW-LAB-01...
+Attempting to connect to FW-LAB-01...
+Successfully connected to FW-LAB-01
+Config was saved as ./backups/FW-LAB-01_03-12-26_08:09:26.conf
+Disconnecting from FW-LAB-01...
 ```
 
 ---
@@ -122,16 +100,16 @@ Disconnect successful
 ## Backup a Single Device
 
 ```
-python3 main.py -b R1
+nbtool -b SW-LAB-01
 ```
 
 Example:
 
 ```
-Backing up: R1
-Attempting to connect to R1...
-Connection established
-Config was saved as ./backups/R1_03-10-26_23:37:03.conf
+Attempting to connect to SW-LAB-01...
+Successfully connected to SW-LAB-01
+Config was saved as ./backups/SW-LAB-01_03-12-26_08:09:23.conf
+Disconnecting from SW-LAB-01...
 ```
 
 ---
@@ -139,7 +117,7 @@ Config was saved as ./backups/R1_03-10-26_23:37:03.conf
 ## List All Devices
 
 ```
-python3 main.py -l
+nbtool -l
 ```
 
 Example output:
@@ -147,13 +125,17 @@ Example output:
 ```
 Listing all devices:
 
-Hostname: R1
-IP: 10.0.0.1
-Vendor: cisco
+Hostname: FW-LAB-01
+Host: 10.0.0.1
+Vendor: juniper_junos
 
-Hostname: R2
-IP: 10.0.0.2
-Vendor: juniper
+Hostname: AD-LAB-01
+Host: 10.0.0.2
+Vendor: adtran_os
+
+Hostname: SW-LAB-01
+Host: 192.168.20.1
+Vendor: cisco_ios
 ```
 
 ---
@@ -161,14 +143,15 @@ Vendor: juniper
 ## List Vendors
 
 ```
-python3 main.py -v
+nbtool -v
 ```
 
 Example:
 
 ```
 Listing all vendors:
-{'cisco', 'juniper'}
+
+{'juniper_junos', 'adtran_os', 'cisco_ios'}
 ```
 
 ---
@@ -179,13 +162,13 @@ Listing all vendors:
 2. Device inventory is loaded from `devices.json`.
 3. Each device is represented by a `NetworkDevice` object.
 4. The tool attempts to connect to the device.
-5. Configuration data is retrieved (simulated).
+5. Configuration data is retrieved.
 6. The configuration is written to the `backups/` directory with a timestamped filename.
 
 Example backup filename:
 
 ```
-R1_03-10-26_23:36:29.conf
+SW-LAB-01_03-12-26_08:09:23.conf
 ```
 
 ---
@@ -203,6 +186,7 @@ This project intentionally exercises common Python fundamentals:
 * CLI argument parsing with `argparse`
 * Error handling with `try/except`
 * Hidden password input using `getpass`
+* Connection management and network device integration using `netmiko`
 * Basic automation workflow design
 
 ---
@@ -216,7 +200,6 @@ Future enhancements could include:
 * Vendor filtering (e.g., backup only Juniper devices)
 * Logging to a file using the `logging` module
 * Real SSH connections using libraries like Netmiko
-* Case-insensitive hostname matching
 * Packaging the tool as an installable Python CLI
 
 ---
