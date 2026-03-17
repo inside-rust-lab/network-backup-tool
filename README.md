@@ -65,6 +65,16 @@ network-backup-tool/
 
 # Quick Start
 
+Required packages:
+
+* Python3
+* Git
+
+Required Python3 modules:
+
+* pip
+* venv
+
 ```
 git clone https://github.com/inside-rust-lab/network-backup-tool.git
 cd network-backup-tool
